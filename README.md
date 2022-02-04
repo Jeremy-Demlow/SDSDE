@@ -2,7 +2,7 @@
 
 
 
-This library SDSDE (Simplify Data Science and Data Engineering) is a library that focuses on making Data Science and Data Engineering tasks much easier for the masses this is a pre-release so this isn't a pypi library, but I plan on spending time improving this and releasing this as a tool that will help organizations that are Snowflake, Azure and Gitlab focused.
+This library SDSDE (Simplify Data Science and Data Engineering) is a library that focuses on making Data Science and Data Engineering tasks much easier for the masses this is a pre-release so this isn't, but will be a pypi library, but I plan on spending time improving this and releasing this as a tool that will help organizations that are Snowflake, Azure and Gitlab focused.
 
 This template approach can easily be transfered to other clouds, but would need time and focus to make sure this was possible. Hope this is something someone finds and is happy take code from this that makes their lives much easier in the future.
 
@@ -12,45 +12,24 @@ I am planning on releasing a template example of this with a kaggle example simi
 
 What you will learn from that template is that one can iterate quickly and get a full Data Science Pipeline out the door in less than a day. This way business uses
 
-# How to Install sdsde Library
-
-```bash
-pip install sdsde
-```
 
 # Kaggle Examples
 
 ```python
-#skip
 import logging
-import os
 import pandas as pd
 import numpy as np
 import xgboost as xgb
-import gc
 
-from sdsde.modeling.inference import pull_sklearn_object_from_data_lake, \
-                                    push_dataframe_to_data_lake_as_parquet, move_parquet_table_to_snowflake, \
-                                    query_and_push_feature_set_to_data_lake
-from sdsde.modeling.inferencefastai import (
-    pull_fastai_learner_from_data_lake, pull_transform_predict_sklearn, pull_fastai_preprocess_from_data_lake,
-    push_prediction_to_dl_and_sf
-)
-from sdsde.modeling.premodel import make_data_lake_stage, temporal_and_static_dump_data_to_datalake
-from sdsde.modeling.preprocessingfastai import generate_fastai_pytorch_dataloader, load_pandas, save_fastai_preprocess_to_data_lake
-from sdsde.modeling.premodel import query_pushed_parquet_table_data_lake, query_feature_set_from_data_lake
-from sdsde.modeling.training import HpOptBinary, save_sklearn_object_to_data_lake
-from sdsde.modeling.trainingfastai import train_fastai_tabular_model, save_fastai_model_to_data_lake
-from sdsde.snowflake.query import SnowflakeConnect
-from sdsde.azure.filehandling import FileHandling
+from sdsde.modeling.preprocessingfastai import generate_fastai_pytorch_dataloader
+from sdsde.modeling.trainingfastai import train_fastai_tabular_model
 from sdsde.utils.traininghelpers import  binary_classification_reporter_sklearn
 from sdsde.utils.traininghelpersfastai import binary_classification_reporter_fastai_dl, change_dl_to_pandas_df
+from sdsde.modeling.training import HpOptBinary
 from fastai.tabular.core import CategoryBlock, Categorify, FillMissing, Normalize
 from fastai.basics import *
 from fastai.tabular.all import *
-from hyperopt import fmin, tpe, STATUS_OK, Trials, hp, space_eval
-from sklearn.ensemble import RandomForestClassifier, VotingClassifier
-from sklearn.model_selection import train_test_split
+from hyperopt import hp
 
 
 logging.basicConfig(level=logging.INFO)
@@ -65,7 +44,6 @@ This approach will not win you a Kaggle Competition, but it will get you a basel
 ## Binary Classification Classic Titanic
 
 ```python
-#skip
 ! kaggle competitions list -s titanic
 ```
 
@@ -75,8 +53,6 @@ This approach will not win you a Kaggle Competition, but it will get you a basel
 
 
 ```python
-#skip
-
 ! kaggle competitions submissions  -c titanic
 ```
 
@@ -87,8 +63,6 @@ This approach will not win you a Kaggle Competition, but it will get you a basel
 
 
 ```python
-#skip
-
 !kaggle competitions download -c titanic
 
 ! unzip titanic.zip
@@ -106,7 +80,6 @@ This approach will not win you a Kaggle Competition, but it will get you a basel
 ### DL Method Tabluar
 
 ```python
-#skip
 
 df = pd.read_csv('train.csv')
 
@@ -230,7 +203,6 @@ display(df.head(3))
 
 
 ```python
-#skip
 
 cat_vars = ['Pclass', 'Name', 'Sex', 'Age', 'SibSp', 'Parch',
             'Ticket', 'Cabin', 'Embarked', 'Fare_Bucket',
@@ -259,8 +231,6 @@ learn, probs, y, loss = train_fastai_tabular_model(dl = dl_train,
                                                    y_range = None, # for regression
                                                    plot=True)
 
-# Uncomment line below to review model arch if you are interested in seeing what a NN arch looks like
-# learn.summary()
 
 binary_classification_reporter_fastai_dl(probs, y=y, threshold=0.5, plot=True, bins=5)
 ```
@@ -445,7 +415,6 @@ binary_classification_reporter_fastai_dl(probs, y=y, threshold=0.5, plot=True, b
 
 
 ```python
-#skip
 
 df_test = pd.read_csv('test.csv')
 df_test = feature_create(df_test)
@@ -588,11 +557,8 @@ df_test.head()
 
 
 ```python
-#skip
-
 test_dl = learn.dls.test_dl(df_test, with_label=False)
 probs, _ = learn.get_preds(dl=test_dl)
-# binary_classification_reporter_fastai_dl(probs, y=results.pred, threshold=0.5, plot=True, bins=5)
 ```
 
 
@@ -600,8 +566,6 @@ probs, _ = learn.get_preds(dl=test_dl)
 
 
 ```python
-#skip
-
 sub = pd.DataFrame(df_test.PassengerId.values, columns={'PassengerId'})
 sub['Survived'] = np.where(probs.numpy()[:, 1] > 0.5, 1, 0)
 
@@ -613,8 +577,6 @@ sub.to_csv('titantic_sub.csv', index=False)
 ### Tree Approach
 
 ```python
-#skip
-
 data_sets = change_dl_to_pandas_df(dl_train)
 
 X_train, y_train, X_valid, y_valid = data_sets
@@ -636,7 +598,6 @@ X_train.shape, len(y_train), X_valid.shape, len(y_valid)
 
 
 ```python
-#skip
 
 parameter_space = {
     'max_depth': hp.choice('max_depth', np.arange(21, dtype=int) + 3),
@@ -735,7 +696,6 @@ probs, preds, val_auc, val_bal_acc, fi_permutation = report
 
 
 ```python
-#skip
 
 dl_test = tab_train.dnew(df_test)
 dl_test.process()
@@ -752,7 +712,6 @@ sub.to_csv('titantic_sub.csv', index=False)
 ```
 
 ```python
-#skip
 
 ! kaggle competitions submit  -c titanic -f 'titantic_sub.csv' -m 'Quick Xgboost'
 ```
@@ -761,7 +720,6 @@ sub.to_csv('titantic_sub.csv', index=False)
     Successfully submitted to Titanic - Machine Learning from Disaster
 
 ```python
-#skip
 
 file_list = ['test.csv', 'train.csv', 'titantic_sub.csv', 'titanic.zip', 'gender_submission.csv']
 for f in file_list:
@@ -772,7 +730,6 @@ for f in file_list:
 ## Tabular Playground Series - Oct 2021
 
 ```python
-#skip
 
 ! kaggle competitions list -s 'Tabular Playground Series - Oct 2021'
 ```
@@ -784,7 +741,6 @@ for f in file_list:
 
 
 ```python
-#skip
 
 ! kaggle competitions submissions  -c tabular-playground-series-oct-2021
 ```
@@ -797,7 +753,6 @@ for f in file_list:
 
 
 ```python
-#skip
 
 !kaggle competitions download -c tabular-playground-series-oct-2021
 ```
@@ -808,7 +763,6 @@ for f in file_list:
 
 
 ```python
-#skip
 
 ! unzip tabular-playground-series-oct-2021.zip
 ```
@@ -822,7 +776,6 @@ for f in file_list:
 lets try a little bigger problem and see how we do on this type of method
 
 ```python
-#skip
 
 df = pd.read_csv('train.csv')
 logger.info(f'Size of data set: {df.shape}')
@@ -954,7 +907,6 @@ display(df.head(3))
 
 
 ```python
-#skip
 
 unique_values = df.iloc[:1000].nunique()
 cat_vars = [col for col in  unique_values.index[unique_values < 10] if col!='target']
@@ -963,7 +915,6 @@ y_var = ['target']
 ```
 
 ```python
-#skip
 
 dl_train, tab_train = generate_fastai_pytorch_dataloader(df, cat_vars=cat_vars, cont_vars=cont_vars, 
                                                          y_var=y_var, y_block=CategoryBlock(), y_range=None,
@@ -1002,7 +953,7 @@ dl_train, tab_train = generate_fastai_pytorch_dataloader(df, cat_vars=cat_vars, 
 
 
 ```python
-#skip
+
 
 learn, probs, y, loss = train_fastai_tabular_model(dl = dl_train, 
                                                    layer_sizes = [150, 10],
@@ -1102,7 +1053,7 @@ learn, probs, y, loss = train_fastai_tabular_model(dl = dl_train,
 
 
 ```python
-#skip
+
 
 # Uncomment line below to review model arch if you are interested in seeing what a NN arch looks like
 # learn.summary()
@@ -1164,7 +1115,7 @@ binary_classification_reporter_fastai_dl(probs, y=y, threshold=0.5, plot=True, b
 
 
 ```python
-#skip
+
 
 test = pd.read_csv('test.csv')
 logger.info(f'Size of data set: {df.shape}')
@@ -1174,7 +1125,7 @@ logger.info(f'Size of data set: {df.shape}')
 
 
 ```python
-#skip
+
 
 infernece_test = test[cat_vars + cont_vars]
 test_dl = learn.dls.test_dl(infernece_test.reset_index(drop=True), with_label=False)
@@ -1186,7 +1137,7 @@ probs, _ = learn.get_preds(dl=test_dl)
 
 
 ```python
-#skip
+
 
 vsub = pd.DataFrame(test.id, columns={'id'})
 
@@ -1196,7 +1147,7 @@ sub.to_csv('playground.csv', index=False)
 ```
 
 ```python
-#skip
+
 
 ! kaggle competitions submit  -c tabular-playground-series-oct-2021 -f 'playground.csv' -m 'All Columns ROC Metric Follow Data Fastai'
 ```
@@ -1205,7 +1156,7 @@ sub.to_csv('playground.csv', index=False)
     Successfully submitted to Tabular Playground Series - Oct 2021
 
 ```python
-#skip
+
 
 ! kaggle competitions submissions  -c tabular-playground-series-oct-2021
 ```
@@ -1218,7 +1169,7 @@ sub.to_csv('playground.csv', index=False)
 
 
 ```python
-#skip
+
 
 for f in file_list:
     if os.path.exists(f):
