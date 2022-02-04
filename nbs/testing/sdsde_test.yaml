@@ -1,0 +1,16 @@
+local:
+    query:
+        blob_path: 'query'
+        account_name: 'Connectsnowflakedata'
+        container_name: 'skierability'
+        file_name: 'skierability_query.txt'
+        sql: "select * from poc_dev.public.ski_score;"
+        push_file: 'skierability_scores.csv'
+test:
+    query:
+        blob_path: 'query'
+        account_name: 'snowflakedata'
+        container_name: 'skierability'
+        file_name: 'skierability_query.txt'
+        sql: "SELECT * FROM poc_dev.public.ski_score LIMIT 10"
+        push_file: 'skierability_scores.csv'

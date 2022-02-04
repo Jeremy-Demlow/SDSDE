@@ -1,0 +1,30 @@
+table:
+  col_names:
+  - environment
+  - description
+  - development
+  - branch
+  - production_model
+  - ever_production
+  - Baseline_Acc
+  - Val_Bal_Acc
+  - Val_AUC
+  - Accuracy
+  - AUC
+  - Acc_Lift
+  - Model_TimeStamp
+  - TimeStamp
+  - ModelType
+  container_name: sdsdetestingltrnbsyaml
+  database: MachineLearningOutputs
+  development-description:
+    dl: Standard Fastai DL Model needs configuration and GB process
+    ensemble: 50/50 split wright for xgb and rf with a soft weight
+    rf: HyperOpt Binary Search for rf standard Approach Using sdsde
+    xgb: HyperOpt Binary Search for XGB standard Approach Using sdsde
+  experiment-description: sdsde Example Noteboke for Binary Classification Ingestion
+    Using a Yaml File
+  file_loc: projects/ltr/model-runs/latest/classification/models/
+  file_name: timestamp.npy
+  schema: dev
+  table: sdsdetestltrexperiments

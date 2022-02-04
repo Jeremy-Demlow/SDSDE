@@ -1,0 +1,10 @@
+[flake8]
+ignore =  E226, F403, F405, W292, E302, N803, N806, N813, N801
+max-line-length = 200
+exclude =
+    docs/*,
+    nbs/*,
+    __pycache__,
+    sdsde/imports.py
+    sdsde/_nbdev.py
+    computeresources/*

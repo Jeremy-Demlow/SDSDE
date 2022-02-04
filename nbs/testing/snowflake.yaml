@@ -1,0 +1,18 @@
+test:
+    check_table: "show tables like 'INSERT_TABLE_NAME_HERE' in INSERET_DATABASE_HERE.INSERT_SCHEMA_HERE;"
+    check_test_table: "show tables like 'sdsdesnowflaketest' in MACHINELEARNINGOUTPUTS.DEV;"
+    create_test_table: "create or replace table MACHINELEARNINGOUTPUTS.DEV.sdsdesnowflaketest (
+    ECID varchar(150)  default null,
+    HOME varchar(150) default null,
+    AVG_VISITS varchar(150) default null,
+    LTR varchar(150) default null);"
+    create_query_table: "create or replace table MACHINELEARNINGOUTPUTS.DEV.sdsdequerytest (
+    ECID varchar(150)  default null,
+    HOME varchar(150) default null,
+    AVG_VISITS varchar(150) default null,
+    LTR varchar(150) default null);"
+    blob_name: 'test_df.csv'
+    blob_path: 'snowflake_load_test'
+    container_name: 'sdsdetesting'
+    table_name: 'sdsdesnowflaketest'
+    account_name: 'Connectsnowflakedata'

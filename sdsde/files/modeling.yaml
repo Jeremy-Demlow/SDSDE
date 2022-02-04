@@ -1,0 +1,125 @@
+dev:
+  deeplearning:
+    bins: 5
+    container: sdsdetestingltrnbsyaml
+    data_loader_path: projects/ltr/model-runs/latest/classification/feature_set/dl_train.pkl
+    dl_train: dl_train.pkl
+    early_comp: greater
+    early_metric_monitor: balanced_accuracy_score
+    early_min_delta: 1.0e-05
+    epochs: 2
+    exp_schema: dev
+    exp_table: sdsdetestltrexperiments
+    layer_sizes:
+    - 50
+    - 10
+    metrics:
+    - Recall
+    - F1Score
+    - RocAucBinary
+    - BalancedAccuracy
+    model_name: sdsde_test_dl_model.pkl
+    overwrite: true
+    patience: 5
+    plot: false
+    project_location: projects/ltr/model-runs/latest/classification/models/dl/
+    save_comp: greater
+    save_metric_monitor: balanced_accuracy_score
+    sfDatabase: MachineLearningOutputs
+    sfSchema: dev
+    tab_config: null
+    threshold: 0.5
+    wd: 0.2
+    y_range: null
+  predict:
+    container: sdsdetestingltrnbsyaml
+    cpu: true
+    data_lake_path: classification/feature_set/train_set/
+    database: MachineLearningOutputs
+    dependent_variable: CHURNVARIABLE
+    exp_schema: dev
+    experiment_short:
+      col_value: sdsde_TESTING_TUTORIAL_LTR
+      name: experiment
+    id_indicator: ECID
+    model:
+      col_value: sdsde_test_dl_model_
+      name: modelname
+    model_name: sdsde_test_dl_model.pkl
+    model_path: projects/ltr/model-runs/latest/classification/models/dl/
+    model_type:
+      col_value: tabular_dl
+      name: modeltype
+    overwrite: true
+    pattern: .*.parquet
+    preds_path: projects/ltr/model-runs/latest/classification/predictions/dl/
+    probability_name: likelihoodtoreturnrate
+    replace_table: true
+    schema: dev
+    sf_col_types:
+      ECID: number
+      experiment: varchar
+      fiscalyear: varchar
+      likelihoodtoreturnrate: float
+      modelname: varchar
+      modeltype: varchar
+      uploadtime: timestamp
+    short_stage_path: /classification/predictions/dl/
+    stage_name: sdsdeltrtestyaml
+    table: sdsdetestltrexperiments
+    table_name: sdsde_testing_tutorial_DL
+    upload: uploadtime
+    with_label: false
+    year_indicator:
+      col_value: 2021/22
+      name: fiscalyear
+  predict_hyperopt:
+    container: sdsdetestingltrnbsyaml
+    data_lake_path: classification/feature_set/train_set/
+    database: MachineLearningOutputs
+    dependent_var: CHURNVARIABLE
+    dl_train_path: projects/ltr/model-runs/latest/classification/feature_set/dl_train.pkl
+    exp_schema: dev
+    experiment_short:
+      col_value: sdsde_TESTING_TUTORIAL_LTR
+      name: experiment
+    id_indicator: ECID
+    model:
+      col_value:
+        ensemble: sdsde_test_ensemble_model_
+        rf: sdsde_test_rf_model_
+        xgb: sdsde_test_xgb_model_
+      name: modelname
+    model_file_name:
+      ensemble: sdsde_test_ltr_ensemble.pkl
+      rf: sdsde_test_ltr_rf.pkl
+      xgb: sdsde_test_ltr_xgb.pkl
+    model_file_path: projects/ltr/model-runs/latest/classification/models/
+    model_type:
+      name: modeltype
+    overwrite: true
+    pattern: .*.parquet
+    prediction_file_path: projects/ltr/model-runs/latest/classification/predictions/
+    probability_name: likelihoodtoreturnrate
+    replace_table: true
+    sfSchema: dev
+    sf_col_types:
+      ECID: number
+      experiment: varchar
+      fiscalyear: varchar
+      likelihoodtoreturnrate: float
+      modelname: varchar
+      modeltype: varchar
+      uploadtime: timestamp
+    short_stage_path: /classification/predictions/
+    stage_name: sdsdeltrtestyaml
+    table: sdsdetestltrexperiments
+    table_name:
+      ensemble: sdsde_testing_tutorial_ensemble
+      rf: sdsde_testing_tutorial_rf
+      xgb: sdsde_testing_tutorial_xgb
+    transformer_name: transformer.pkl
+    upload: uploadtime
+    year_indicator:
+      col_value: 2021/22
+      name: fiscalyear

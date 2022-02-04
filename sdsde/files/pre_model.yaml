@@ -1,0 +1,113 @@
+dev:
+  premodel:
+    account: os.environ['azure_account']
+    blob_path: projects/ltr/model-runs/latest/classification/feature_set/
+    bs: 20
+    container: sdsdetestingltrnbsyaml
+    data_lake_path: classification/feature_set/train_set/
+    dl_name: dl_train.pkl
+    grain: ECID
+    limit_statement: LIMIT 1000
+    overwrite: true
+    pattern: .*.parquet
+    preprocessor_name: transformer.pkl
+    preprocessor_path: projects/ltr/model-runs/latest/classification/models/
+    procs:
+    - Categorify
+    - FillMissing
+    - Normalize
+    query_file_path: ./files/ltr_query.sql
+    seed: 123
+    sklearn_pipeline: false
+    stage_name: sdsdeltrtest
+    val_pct: 0.2
+    y_block: CategoryBlock
+    y_range: null
+  static_features:
+    Age:
+      dtype: NUMBER
+      variable_type: cont
+    Division:
+      dtype: VARCHAR
+      variable_type: cat
+    ECID:
+      dtype: NUMBER
+      variable_type: id
+    EverCorePass:
+      dtype: VARCHAR
+      variable_type: cat
+    EverPass:
+      dtype: VARCHAR
+      variable_type: cat
+    GenderCode:
+      dtype: VARCHAR
+      variable_type: cat
+    IsEpicMixActivated:
+      dtype: VARCHAR
+      variable_type: cat
+    MarketingZone:
+      dtype: VARCHAR
+      variable_type: cat
+    MaxSeasonVisitationStreak:
+      dtype: NUMBER
+      variable_type: cat
+    OnlySingleResortKey:
+      dtype: NUMBER
+      variable_type: cat
+    PartnerResortScannerFlag:
+      dtype: VARCHAR
+      variable_type: cat
+    TotalSeasonsLapsed:
+      dtype: NUMBER
+      variable_type: cat
+    TotalSeasonsScanned:
+      dtype: NUMBER
+      variable_type: cat
+    YearsSinceAcquired:
+      dtype: NUMBER
+      variable_type: cat
+    YearsSinceFirstScan:
+      dtype: NUMBER
+      variable_type: cat
+  temporal_features:
+    AvgResortsPerSeason_ECID_temporal:
+      args:
+      - base.ECID
+      - '20161101'
+      - '20210422'
+      dtype: FLOAT
+      variable_type: cont
+    AvgVisitPerSeason_ECID_temporal:
+      args:
+      - base.ECID
+      - '20161101'
+      - '20210422'
+      dtype: FLOAT
+      variable_type: cont
+    RETURNVARIABLE_ECID_Temporal:
+      args:
+      - base.ECID
+      - 2020/21
+      dtype: NUMBER
+      variable_type: y
+    ResortsVisited_ECID_temporal:
+      args:
+      - base.ECID
+      - '20161101'
+      - '20210422'
+      dtype: NUMBER
+      variable_type: cat
+    TotalVisits_ECID_temporal:
+      args:
+      - base.ECID
+      - '20161101'
+      - '20210422'
+      dtype: NUMBER
+      variable_type: cont
+    YearsSinceVisit_ECID_Temporal:
+      args:
+      - base.ECID
+      - '20161101'
+      - '20210422'
+      dtype: NUMBER
+      variable_type: cat

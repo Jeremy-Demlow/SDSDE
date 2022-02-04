@@ -1,0 +1,17 @@
+blob_dest: blob_dest
+connection_string: connection_str
+container_name: container_name
+sfAccount: sfAccount
+sfDatabase: sfDatabase
+sfPswd: sfPswd
+sfRole: sfRole
+sfSchema: sfSchema
+sfUser: sfUser
+sfWarehouse: sfWarehouse
+sftp_filename: stfp_filename
+sftp_filetype: .csv
+sftp_host: sftp_host
+sftp_location: ./
+sftp_pass: stfp_password
+sftp_port: 22
+sftp_user: sftp_username

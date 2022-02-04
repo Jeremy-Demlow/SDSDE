@@ -1,0 +1,26 @@
+sftp:
+  blob_dest: /sftp_test/grab_test
+  connection_string: DATALAKE_CONN_STR_SECRET
+  container_name: digitaladls
+  delimiter: ','
+  encoding: UTF-8
+  insert_table_name: MACHINELEARNINGOUTPUTS.DEV.SFTP_TEST_TABLE
+  insert_token: DATALAKE_SAS_TOKEN_SECRET
+  query_file: sftp_query.sql
+  sfAccount: sfAccount
+  sfDatabase: sfDatabase
+  sfPswd: sfPswd
+  sfRole: sfRole
+  sfSchema: sfSchema
+  sfSchema_Prod: prod
+  sfUser: sfUser
+  sfWarehouse: sfWarehouse
+  sftp_dir_location: /uploads/TestNewLRProcess
+  sftp_filename: sftp_test
+  sftp_filetype: .csv
+  sftp_host: sftp_host
+  sftp_key: sftp_key
+  sftp_pass: sftp_pass
+  sftp_port: 22
+  sftp_user: sftp_user
+  storage_account: vaildtscadls

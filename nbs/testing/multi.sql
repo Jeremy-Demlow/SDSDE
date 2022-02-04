@@ -1,0 +1,3 @@
+CREATE OR REPLACE TABLE sdsde_test AS SELECT ecid,	likelihoodtoreturnrate,	likelihoodtoreturnlabel FROM MACHINELEARNINGOUTPUTS.DEV.DL_LTR LIMIT 100;
+CREATE OR REPLACE TABLE sdsde_test_2 AS SELECT ecid,	likelihoodtoreturnrate,	likelihoodtoreturnlabel FROM MACHINELEARNINGOUTPUTS.DEV.DL_LTR LIMIT 100;
+SELECT ecid,	likelihoodtoreturnrate,	likelihoodtoreturnlabel FROM MACHINELEARNINGOUTPUTS.DEV.DL_LTR LIMIT 100;
